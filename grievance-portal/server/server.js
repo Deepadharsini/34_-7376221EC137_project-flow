@@ -1,22 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const grievanceRoutes = require('./routes/grievances');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://localhost:27017/grify', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/api/grievances', grievanceRoutes);
 
+// Routes
+app.use('/api/auth', authRoutes);
+
+// Connect to MongoDB
+mongoose
+  .connect('mongodb+srv://deepadharsini:dada%4009@cluster0.ir4cb.mongodb.net/grievance-portal?retryWrites=true&w=majority')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
+
+// Start the server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

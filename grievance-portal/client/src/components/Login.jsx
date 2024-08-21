@@ -1,61 +1,58 @@
 import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      navigate('/home'); // Redirect to HomePage on successful login
-    } catch (error) {
-      console.error('Login failed:', error.response?.data?.message);
-    }
+    
+    // Login logic here (e.g., send data to backend)
+    // After successful login, redirect to /home
+    
+    navigate('/home');
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800">Login</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-            />
-          </div>
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-green-700 text-white font-semibold rounded-md shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>
         </form>
+        {/* Sign up link */}
+        <p className="text-center mt-4 text-gray-600">
+          Do not have an account?{' '}
+          <Link to="/signup" className="text-blue-500 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
