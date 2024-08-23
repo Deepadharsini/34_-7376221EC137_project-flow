@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import bannari from '../assets/bannari.jpg'; // Adjust the path if needed
 
-function Login() {
+function FacultyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Add your email/password login logic here
-    // After successful login, redirect to /home
+    // Add your student-specific login logic here
     navigate('/home');
   };
 
@@ -20,7 +19,7 @@ function Login() {
       style={{ backgroundImage: `url(${bannari})` }}
     >
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Faculty Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
@@ -56,4 +55,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default FacultyLogin;

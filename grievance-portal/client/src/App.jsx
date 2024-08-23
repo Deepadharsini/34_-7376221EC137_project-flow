@@ -1,25 +1,33 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignUp from './components/SignUp';
-import Login from './components/Login';
+//import Login from './components/Login';
 import HomePage from './components/HomePage';
+import StudentLogin from './components/StudentLogin';
+import FacultyLogin from './components/FacultyLogin';
+import NonTeachingFacultyLogin from './components/NonTeachingFacultyLogin';
+import AdminLogin from './components/AdminLogin';
+import UserSelection from './components/UserSelection';
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Default Route */}
-        <Route path="/" element={<Login />} />
-        
-        {/* Sign Up Page */}
+        {/* User Selection Page */}
+        <Route path="/" element={<UserSelection />} />
+
+        {/* Login Pages */}
+        <Route path="/student-login" element={<StudentLogin />} />
+        <Route path="/faculty-login" element={<FacultyLogin />} />
+        <Route path="/non-teaching-faculty-login" element={<NonTeachingFacultyLogin />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+
+        {/* SignUp Page */}
         <Route path="/signup" element={<SignUp />} />
-        
-        {/* Login Page */}
-        <Route path="/login" element={<Login />} />
         
         {/* Home Page */}
         <Route path="/home" element={<HomePage />} />
-        
-        {/* Redirect any other path to Login */}
+
+        {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

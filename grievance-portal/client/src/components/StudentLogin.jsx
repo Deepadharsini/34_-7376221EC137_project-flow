@@ -1,26 +1,24 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import bannari from '../assets/bannari.jpg'; // Adjust the path if needed
+import bannari from '../assets/bannari.jpg'; 
 
-function Login() {
+function StudentLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Add your email/password login logic here
-    // After successful login, redirect to /home
     navigate('/home');
   };
 
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-gray-200 bg-cover bg-center"
-      style={{ backgroundImage: `url(${bannari})` }}
+      style = {{backgroundImage: `url(${bannari})`}}
     >
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Student Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
@@ -56,4 +54,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default StudentLogin;
