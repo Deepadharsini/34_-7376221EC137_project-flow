@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bannari from '../assets/bannari.jpg'; // Adjust the path if needed
+import bannari from '../assets/bannari.jpg'; 
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ function SignUp() {
       className="flex items-center justify-center min-h-screen bg-gray-200 bg-cover bg-center"
       style={{ backgroundImage: `url(${bannari})` }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md" style={{opacity: 0.7}}>
         <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
         <form onSubmit={handleSignUp} className="space-y-4">
           <input

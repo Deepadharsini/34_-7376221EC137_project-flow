@@ -1,23 +1,33 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import bannari from '../assets/bannari.jpg'; 
+import bannari from '../assets/bannari.jpg';
 
 function StudentLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    // Email validation regex for @bitsathy.ac.in domain
+    const emailRegex = /^[^\s@]+@bitsathy\.ac\.in$/;
+
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid @bitsathy.ac.in email address.');
+      return;
+    }
+    
+    setError('');
     navigate('/home');
   };
 
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-gray-200 bg-cover bg-center"
-      style = {{backgroundImage: `url(${bannari})`}}
+      style={{ backgroundImage: `url(${bannari})` }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md" style={{opacity: 0.7}}>
         <h1 className="text-2xl font-bold mb-6 text-center">Student Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
@@ -36,6 +46,7 @@ function StudentLogin() {
             required
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error message */}
           <button
             type="submit"
             className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"

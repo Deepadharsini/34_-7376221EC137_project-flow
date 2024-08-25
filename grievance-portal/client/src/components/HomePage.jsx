@@ -5,15 +5,18 @@ import Navbar from './Navbar';
 const HomePage = () => {
   const navigate = useNavigate(); 
 
-  // Initialize state for upvotes and user upvote status
-  const [upvotes, setUpvotes] = useState([0, 0]); // Assuming two grievances for simplicity
-  const [userUpvotes, setUserUpvotes] = useState([false, false]); // Track if user has upvoted
+ 
+  const [upvotes, setUpvotes] = useState([0, 0]); 
+  const [userUpvotes, setUserUpvotes] = useState([false, false]); 
 
   const handleLogout = () => {
     navigate('/'); 
   };
+  const handleSubmitGrievance = () => {
+    navigate('/SubmitGrievance'); 
+  };
 
-  // Handle upvote
+
   const handleUpvote = (index) => {
     const newUpvotes = [...upvotes];
     const newUserUpvotes = [...userUpvotes];
@@ -70,7 +73,7 @@ const HomePage = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-800">Menu</h3>
             <ul className="space-y-4">
               <li className="text-blue-600 cursor-pointer hover:underline">Profile</li>
-              <li className="text-blue-600 cursor-pointer hover:underline">Submit Grievance</li>
+              <li className="text-blue-600 cursor-pointer hover:underline"onClick={handleSubmitGrievance}> Submit Grievance </li>
               <li className="text-blue-600 cursor-pointer hover:underline">History</li>
               <li className="text-blue-600 cursor-pointer hover:underline">Upvotes History</li>
             </ul>
