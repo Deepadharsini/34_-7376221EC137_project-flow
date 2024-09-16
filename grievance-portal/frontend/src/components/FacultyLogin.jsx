@@ -1,26 +1,52 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import bannari from '../assets/bannari.jpg'; // Adjust the path if needed
+import { useNavigate } from 'react-router-dom';
+import bannari from '../assets/bannari.jpg'; 
 
 function FacultyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // Add state for error message
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@bitsathy\.ac\.in$/;
+    return regex.test(email);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Email validation for @bitsathy.ac.in domain
-    const emailRegex = /^[^\s@]+@bitsathy\.ac\.in$/;
+    console.log('Login form submitted:', { email, password }); // Debugging
 
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid @bitsathy.ac.in email address.');
+    // Validate email format
+    if (!validateEmail(email)) {
+      setError('Invalid email format. Must be like "name@bitsathy.ac.in".');
+      console.log('Email validation failed:', email); // Debugging
       return;
     }
 
-    setError('');
-    // Add your faculty-specific login logic here
-    navigate('/home');
+    try {
+      const response = await fetch('http://localhost:5000/api/faculty/login ', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      console.log('Login response received:', response); // Debugging
+
+      const data = await response.json();
+      console.log('Login response data:', data); // Debugging
+
+      if (response.ok) {
+        console.log('Login successful! Navigating to home...');
+        navigate('/home');
+      } else {
+        setError(data.error || 'Login failed. Please try again later.');
+        console.error('Login failed:', data.error); // Debugging
+      }
+    } catch (err) {
+      console.error('Fetch error:', err); // Debugging
+      setError('Login failed. Please try again later.');
+    }
   };
 
   return (
@@ -47,20 +73,15 @@ function FacultyLogin() {
             required
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error message */}
+          {error && <p className="text-red-500 text-center">{error}</p>}
           <button
             type="submit"
             className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>
+          <p className="text-center text-gray-600">Do not have an account? <a href="/signup" className="text-blue-600">Sign Up</a></p>
         </form>
-        <p className="text-center mt-4 text-gray-600">
-          Do not have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:underline">
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );

@@ -1,25 +1,30 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import bannari from '../assets/bannari.jpg'; // Adjust the path if needed
+import { useNavigate } from 'react-router-dom';
+import bannari from '../assets/bannari.jpg'; 
 
-function NonTeachingFacultyLogin() {
+function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); 
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-   
-    const emailRegex = /^[^\s@]+@bitsathy\.ac\.in$/;
-
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid @bitsathy.ac.in email address.');
+    
+    // Ensure only admin@bitsathy.ac.in can log in
+    if (email !== 'admin@bitsathy.ac.in') {
+      setError('Invalid email.');
       return;
     }
     
-    setError('');
-    // Handle successful login (simulate or perform actual login process)
+    // Ensure correct password
+    if (password !== 'Admin001') {
+      setError('Invalid password.');
+      return;
+    }
+
+    // Implement login logic here
+    // Normally, you would send a request to the server here
     navigate('/home');
   };
 
@@ -29,7 +34,7 @@ function NonTeachingFacultyLogin() {
       style={{ backgroundImage: `url(${bannari})` }}
     >
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md" style={{opacity: 0.7}}>
-        <h1 className="text-2xl font-bold mb-6 text-center">Non-Teaching Faculty Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
@@ -47,7 +52,7 @@ function NonTeachingFacultyLogin() {
             required
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error message */}
+          {error && <p className="text-red-500 text-center">{error}</p>}
           <button
             type="submit"
             className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -55,15 +60,9 @@ function NonTeachingFacultyLogin() {
             Login
           </button>
         </form>
-        <p className="text-center mt-4 text-gray-600">
-          Do not have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:underline">
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );
 }
 
-export default NonTeachingFacultyLogin;
+export default AdminLogin;

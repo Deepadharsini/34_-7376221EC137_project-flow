@@ -7,7 +7,7 @@ import NonTeachingFacultyLogin from './components/NonTeachingFacultyLogin';
 import AdminLogin from './components/AdminLogin';
 import UserSelection from './components/UserSelection';
 import SubmitGrievance from './components/SubmitGrievance';
-import SuccessPage from './components/SuccessPage'; 
+import SuccessPage from './components/SuccessPage';
 
 function App() {
   return (
@@ -21,11 +21,14 @@ function App() {
         <Route path="/faculty-login" element={<FacultyLogin />} />
         <Route path="/non-teaching-faculty-login" element={<NonTeachingFacultyLogin />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/SubmitGrievance" element={<SubmitGrievance />} />
-        <Route path="/success" element={<SuccessPage />} /> 
+
+        {/* Submit Grievance and Success Pages */}
+        <Route path="/submit-grievance" element={<SubmitGrievance />} />
+        <Route path="/success" element={<SuccessPage />} />
+
         {/* SignUp Page */}
         <Route path="/signup" element={<SignUp />} />
-        
+
         {/* Home Page */}
         <Route path="/home" element={<HomePage />} />
 
