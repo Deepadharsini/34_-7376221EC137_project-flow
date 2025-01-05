@@ -1,8 +1,11 @@
-import { useState } from 'react';
+// src/components/SubmitGrievance.jsx
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const SubmitGrievance = () => {
+    const { user } = useContext(AuthContext); // Access user from AuthContext
     const [type, setType] = useState('public');
     const [content, setContent] = useState('');
     const [isAnonymous, setIsAnonymous] = useState(false);
@@ -14,10 +17,15 @@ const SubmitGrievance = () => {
         e.preventDefault();
         setLoading(true);
         setMessage('');
+
         try {
-            const res = await axios.post('/api/grievances', 
-                { type, content, isAnonymous }
-            );
+            console.log('Submitting grievance with data:', { type, content, isAnonymous });
+            const res = await axios.post('http://localhost:5000/api/grievances', {
+                type,
+                content,
+                isAnonymous,
+                userEmail: user?.email || null, // Pass user email if available
+            });
             console.log('Grievance submitted:', res.data);
             setMessage('Grievance submitted successfully!');
             setType('public');
@@ -25,8 +33,18 @@ const SubmitGrievance = () => {
             setIsAnonymous(false);
             navigate('/success'); 
         } catch (error) {
-            console.error('Submission failed:', error.response?.data?.message);
-            setMessage('Submission failed. Please try again.');
+            console.error('Submission failed:', error);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                setMessage(error.response.data?.message || 'Submission failed. Please try again.');
+            } else if (error.request) {
+                console.error('Request data:', error.request);
+                setMessage('No response received from the server. Please try again.');
+            } else {
+                console.error('Error message:', error.message);
+                setMessage('An error occurred while submitting. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
@@ -76,7 +94,7 @@ const SubmitGrievance = () => {
                         {loading ? 'Submitting...' : 'Submit Grievance'}
                     </button>
                     
-                    {message && <p className="text-center text-red-500">{message}</p>}
+                    {message && <p className={`text-center ${message.includes('successfully') ? 'text-green-500' : 'text-red-500'}`}>{message}</p>}
                 </form>
             </div>
         </div>

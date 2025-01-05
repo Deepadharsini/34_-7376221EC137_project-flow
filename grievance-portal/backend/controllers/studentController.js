@@ -12,11 +12,13 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || user.role !== 'student' || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
+
     res.status(200).json({ message: 'Student logged in successfully.' });
   } catch (error) {
+    console.error('Login failed:', error);
     res.status(500).json({ error: 'Login failed. Please try again later.' });
   }
 };

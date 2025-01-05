@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Adjust the path as needed
+const User = require('../models/User');
 const nonTeachingFacultyEmailPattern = /^[a-zA-Z0-9._%+-]+@bitsathy\.ac\.in$/;
 
 // Non-Teaching Faculty login controller

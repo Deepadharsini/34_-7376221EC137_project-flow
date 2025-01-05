@@ -1,4 +1,11 @@
+// src/App.js
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { GrievanceProvider } from './context/GrievanceContext';
+import { AuthProvider } from './context/AuthContext';
+
+// Importing Components
+import Navbar from './components/Navbar';
 import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
 import StudentLogin from './components/StudentLogin';
@@ -11,31 +18,33 @@ import SuccessPage from './components/SuccessPage';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* User Selection Page */}
-        <Route path="/" element={<UserSelection />} />
+    <AuthProvider>
+      <GrievanceProvider>
+        <Router>
+          {/* Navbar is placed here to appear on all pages */}
+          
+          <Routes>
+            {/* User Selection Page */}
+            <Route path="/" element={<UserSelection />} />
 
-        {/* Login Pages */}
-        <Route path="/student-login" element={<StudentLogin />} />
-        <Route path="/faculty-login" element={<FacultyLogin />} />
-        <Route path="/non-teaching-faculty-login" element={<NonTeachingFacultyLogin />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
+            {/* Authentication Routes */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/student-login" element={<StudentLogin />} />
+            <Route path="/faculty-login" element={<FacultyLogin />} />
+            <Route path="/non-teaching-faculty-login" element={<NonTeachingFacultyLogin />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
 
-        {/* Submit Grievance and Success Pages */}
-        <Route path="/submit-grievance" element={<SubmitGrievance />} />
-        <Route path="/success" element={<SuccessPage />} />
+            {/* Grievance Management Routes */}
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/submit-grievance" element={<SubmitGrievance />} />
+            <Route path="/success" element={<SuccessPage />} />
 
-        {/* SignUp Page */}
-        <Route path="/signup" element={<SignUp />} />
-
-        {/* Home Page */}
-        <Route path="/home" element={<HomePage />} />
-
-        {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+            {/* Fallback Route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </GrievanceProvider>
+    </AuthProvider>
   );
 }
 

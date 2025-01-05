@@ -1,32 +1,33 @@
-import { useState } from 'react';
+// src/components/HomePage.jsx
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar'; 
+import Navbar from './Navbar';
+import { AuthContext } from '../context/AuthContext';
 
 const HomePage = () => {
   const navigate = useNavigate(); 
+  const {  logout } = useContext(AuthContext); // Access user and logout from context
 
- 
   const [upvotes, setUpvotes] = useState([0, 0]); 
   const [userUpvotes, setUserUpvotes] = useState([false, false]); 
 
   const handleLogout = () => {
+    logout(); // Clear user data
     navigate('/'); 
   };
-  const handleSubmitGrievance = () => {
-    navigate('/SubmitGrievance'); 
-  };
 
+  const handleSubmitGrievance = () => {
+    navigate('/submit-grievance'); // Ensure this matches the route in App.js
+  };
 
   const handleUpvote = (index) => {
     const newUpvotes = [...upvotes];
     const newUserUpvotes = [...userUpvotes];
     
     if (newUserUpvotes[index]) {
-      
       newUpvotes[index] -= 1;
       newUserUpvotes[index] = false;
     } else {
-      
       newUpvotes[index] += 1;
       newUserUpvotes[index] = true;
     }
@@ -39,7 +40,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
       <Navbar />
-
+      
       {/* Main Content */}
       <div className="flex flex-col md:flex-row gap-4 p-4 container mx-auto">
         {/* Public Grievances */}
@@ -73,7 +74,12 @@ const HomePage = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-800">Menu</h3>
             <ul className="space-y-4">
               <li className="text-blue-600 cursor-pointer hover:underline">Profile</li>
-              <li className="text-blue-600 cursor-pointer hover:underline"onClick={handleSubmitGrievance}> Submit Grievance </li>
+              <li 
+                className="text-blue-600 cursor-pointer hover:underline" 
+                onClick={handleSubmitGrievance}
+              >
+                Submit Grievance
+              </li>
               <li className="text-blue-600 cursor-pointer hover:underline">History</li>
               <li className="text-blue-600 cursor-pointer hover:underline">Upvotes History</li>
             </ul>

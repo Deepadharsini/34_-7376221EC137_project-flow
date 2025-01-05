@@ -55,7 +55,7 @@ function StudentLogin() {
       className="flex items-center justify-center min-h-screen bg-gray-200 bg-cover bg-center"
       style={{ backgroundImage: `url(${bannari})` }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md" style={{ opacity: 0.9 }}>
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md" style={{ opacity: 0.7 }}>
         <h1 className="text-2xl font-bold mb-6 text-center">Student Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input

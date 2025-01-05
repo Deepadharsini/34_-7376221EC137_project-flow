@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const facultyEmailPattern = /^[a-zA-Z0-9._%+-]+@bitsathy\.ac\.in$/;
+
+// Updated faculty email pattern to exclude student emails like .xx22
+const facultyEmailPattern = /^(?!.*\.[a-zA-Z]{2}\d{2})[a-zA-Z0-9._%+-]+@bitsathy\.ac\.in$/;
 
 // Faculty login controller
 const login = async (req, res) => {
@@ -9,14 +11,14 @@ const login = async (req, res) => {
 
   // Check email format
   if (!facultyEmailPattern.test(email)) {
-    console.log('Invalid email format:', email); // Debugging
+    console.log('Invalid faculty email format:', email); // Debugging
     return res.status(400).json({ error: 'Invalid faculty email format.' });
   }
 
   try {
     const user = await User.findOne({ email });
     console.log('User retrieved from DB:', user); // Debugging
-    
+
     if (!user) {
       console.log('User not found for email:', email); // Debugging
       return res.status(400).json({ error: 'Invalid email or password' });
